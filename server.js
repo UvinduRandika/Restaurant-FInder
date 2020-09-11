@@ -48,7 +48,8 @@ app.get("/restaurants/:id", async (req, res) => {
 });
 
 app.post("/restaurants", async (req, res) => {
- 
+ console.log("aaaaaaa");
+ console.log(req.body);
     try{
         const r = await db.query(
             "INSERT INTO restaurants (name, location, price_range) values ($1, $2, $3) returning *",
@@ -56,7 +57,7 @@ app.post("/restaurants", async (req, res) => {
         console.log(r);
         res.status(200).json({
             status: "success",
-            data: {
+            data: { 
                 restaurants: r.rows[0]
             },
         });
