@@ -12,7 +12,7 @@ app.get("/restaurants", async (req, res) => {
 
     try{
         const r = await db.query("SELECT * FROM restaurants");
-        console.log(r);
+      //  console.log(r);
         res.status(200).json({
             status: "success",
             results: r.rows.length,
