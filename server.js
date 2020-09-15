@@ -63,7 +63,7 @@ app.post("/restaurants", async (req, res) => {
         });
 
     } catch(err){
-        console.log(err);
+        console.log(err); 
     }
 });
 
@@ -106,5 +106,5 @@ app.delete("/restaurants/:id", async (req, res) => {
 //const P = process.env.PORT || 3001;
 
 app.listen(3000, function(){
-    console.log("Server has started and listing on port ${port}");
+    console.log("Server has started and listing on port port}");
 }) 
