@@ -50,7 +50,7 @@ app.get("/restaurants/:id", async (req, res) => {
 });
 
 app.post("/restaurants", async (req, res) => {
-    console.log("aaaaaaa");
+   
     console.log(req.body);
     try {
         const r = await db.query(
@@ -104,6 +104,29 @@ app.delete("/restaurants/:id", async (req, res) => {
         console.log(err);
     }
 });
+
+app.post("/restaurants/:id/addReview", async (req, res) => {
+    
+    console.log(req.body);
+    try {
+        const r = await db.query(
+            "INSERT INTO reviews(restaurant_id, name, review, rating) values ($1, $2, $3, $4) returning *",
+            [req.params.id, req.body.name, req.body.review, req.body.rating]);
+        console.log(r);
+        res.status(201).json({
+            status: "success",
+            data: {
+               
+                reviews: r.rows[0]
+            
+            },
+        });
+
+    } catch (err) {
+        console.log(err);
+    }
+});
+
 
 //const P = process.env.PORT || 3001;
 
