@@ -11,7 +11,7 @@ app.use(express.json());
 app.get("/restaurants", async (req, res) => {
 
     try {
-       // const r = await db.query("SELECT * FROM restaurants");
+      //  const data = await db.query("SELECT * FROM restaurants");
         const data = await db.query("select * from restaurants left join (select restaurant_id, count(*), trunc(avg(rating),1) as average_rating from reviews group by restaurant_id) reviews on restaurants.id=reviews.restaurant_id;");
          console.log(data);
         res.status(200).json({
@@ -58,9 +58,9 @@ app.post("/restaurants", async (req, res) => {
     console.log(req.body);
     try {
         const r = await db.query(
-            "INSERT INTO restaurants (name, location, price_range) values ($1, $2, $3) returning *",
-            [req.body.name, req.body.location, req.body.price_range]);
-        console.log(r);
+            "INSERT INTO restaurants (clientID, name, location, price_range) values ($1, $2, $3, $4) returning *",
+            [req.body.clientId, req.body.name, req.body.location, req.body.price_range]);
+        console.log(r); 
         res.status(200).json({
             status: "success",
             data: {
@@ -122,6 +122,28 @@ app.post("/restaurants/:id/addReview", async (req, res) => {
             data: {
                
                 reviews: r.rows[0]
+            
+            },
+        });
+
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+app.post("/restaurants/SignUp", async (req, res) => {
+    
+    console.log(req.body.name);
+    try {
+        const r = await db.query(
+            "INSERT INTO clients(name, password) values ($1, $2) returning *",
+            [req.body.name, req.body.password]);
+        console.log(r);
+        res.status(201).json({
+            status: "success",
+            data: {
+               
+                clients: r.rows[0]
             
             },
         });
